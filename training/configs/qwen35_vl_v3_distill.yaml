@@ -1,0 +1,116 @@
+# Fetal VLM v3: Offline Knowledge Distillation Training
+# =====================================================
+# Builds on v2 (SFT-only) by adding feature-level KD from 4 teachers.
+# Teacher features are pre-computed to HDF5 cache (no teachers on GPU during training).
+#
+# v3 Run 3 changes vs Run 1/2:
+#   - w_feat=0.5 (proven better than 0.3 in run 1 vs run 2)
+#   - kd_warmup_ratio=0.0 (no warmup - proven unnecessary)
+#   - 2 epochs (best model always at epoch 1, epoch 2 as safety net)
+#   - Per-teacher importance weights based on domain relevance
+#   - load_best_model_at_end=true (preserve best checkpoint)
+
+# --- Student Model ---
+student:
+  model_name: "unsloth/Qwen3.5-4B"
+  max_seq_length: 4096
+  load_in_4bit: false
+  lora_r: 16
+  lora_alpha: 16
+  lora_dropout: 0.0
+  use_gradient_checkpointing: "unsloth"
+  finetune_vision_layers: true
+  finetune_language_layers: true
+  finetune_attention_modules: true
+  finetune_mlp_modules: true
+  # Initialize from v2 trained adapter
+  v2_adapter_path: "outputs_qwen35_v2/final/"
+  # Vision encoder hook points (24 blocks, proportional depth)
+  hook_layer_indices: [7, 15, 23]
+
+# --- Teacher Models ---
+# Feature dims are block-level intermediate dimensions (NOT post-projection/reduction)
+teachers:
+  - name: "fetal_clip"
+    model_path: "/media/mshz88/OS/Qwen/GitHub/FetalClip/FetalCLIP_weights.pt"
+    model_type: "clip"
+    feature_dim: 1024    # Block-level (768 is post-projection head)
+    num_blocks: 24
+    hook_layer_indices: [7, 15, 23]
+    dtype: "float16"
+
+  - name: "ultra_fed_fm"
+    model_path: "/media/mshz88/OS/Qwen/GitHub/UltraFedFM/Model/pretrained_ultrafedfm/checkpoint.pth"
+    model_type: "mae"
+    feature_dim: 768
+    num_blocks: 12
+    hook_layer_indices: [3, 7, 11]
+    dtype: "float16"
+
+  - name: "ultra_sam"
+    model_path: "/media/mshz88/OS/Qwen/GitHub/UltraSAM/UltraSam.pth"
+    model_type: "sam"
+    feature_dim: 768     # Block-level (256 is post-channel_reduction)
+    num_blocks: 12
+    hook_layer_indices: [3, 7, 11]
+    dtype: "float16"
+
+  - name: "usf_mae"
+    model_path: "/media/mshz88/OS/Qwen/GitHub/USF-MAE/USF-MAE_full_pretrain_43dataset_500epochs.pt"
+    model_type: "mae"
+    feature_dim: 768
+    num_blocks: 12
+    hook_layer_indices: [3, 7, 11]
+    dtype: "float16"
+
+# --- Distillation ---
+distillation:
+  mode: "cached"  # Use pre-computed teacher features from HDF5
+  cache_path: "processed_data/teacher_feature_cache.h5"
+  loss_weights:
+    w_task: 1.0
+    w_feat: 0.5          # Reverted from 0.3 (run 1 proved 0.5 better)
+    w_soft: 0.0           # Disabled: teachers are vision-only
+    w_attn: 0.0           # Disabled: not wired for offline mode
+  kd_warmup_ratio: 0.0   # No warmup (proven unnecessary in run 2)
+  normalize_features: true
+  # Per-teacher importance weights (domain-relevance-based)
+  # FetalCLIP:  0.40 - fetal-specific, VL-aligned, 1024-dim direct match
+  # UltraSAM:   0.25 - supervised segmentation, spatial structure
+  # USF-MAE:    0.20 - self-supervised reconstruction, general US texture
+  # UltraFedFM: 0.15 - federated SSL, most generic (19 organs)
+  teacher_weights:
+    fetal_clip: 0.4
+    ultra_sam: 0.25
+    usf_mae: 0.2
+    ultra_fed_fm: 0.15
+
+# --- Data ---
+data:
+  train_jsonl: "processed_data/train.jsonl"
+  val_jsonl: "processed_data/val.jsonl"
+
+# --- Training ---
+training:
+  output_dir: "outputs_qwen35_v3_r3"
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 8
+  num_train_epochs: 2             # 2 epochs (best at epoch 1, epoch 2 safety net)
+  learning_rate: 5.0e-5           # Lower LR for continued training
+  weight_decay: 0.001
+  warmup_ratio: 0.05              # Less warmup from warm start
+  lr_scheduler_type: "cosine"
+  logging_steps: 10
+  save_strategy: "steps"
+  save_steps: 500
+  save_total_limit: 3
+  eval_strategy: "steps"
+  eval_steps: 500
+  load_best_model_at_end: true
+  metric_for_best_model: "eval_loss"
+  greater_is_better: false
+  bf16: true
+  dataloader_num_workers: 4
+  max_seq_length: 4096
+  seed: 42
+  report_to: "none"

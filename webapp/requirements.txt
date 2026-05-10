@@ -1,0 +1,7 @@
+torch>=2.1.0
+transformers>=4.49.0
+accelerate>=0.30.0
+peft>=0.18.0
+Pillow>=10.0
+huggingface_hub>=0.20.0
+unsloth

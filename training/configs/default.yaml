@@ -1,0 +1,107 @@
+# Fetal VLM Knowledge Distillation - Default Configuration
+# =========================================================
+
+# --- Data ---
+data:
+  dataset_root: "/media/mshz88/OS/Qwen/Dataset"
+  output_dir: "/media/mshz88/OS/Qwen/fetal_vlm_kd/processed_data"
+  datasets: null  # null = all registered parsers
+  train_ratio: 0.85
+  val_ratio: 0.10
+  seed: 42
+  formatter:
+    # Coordinates are normalized to [0, 1000) xyxy (Qwen3.5-VL native convention)
+    # No factor/min_pixels/max_pixels needed -- normalization is resolution-independent
+    polygon_simplify_epsilon: 0.01
+    max_polygon_points: 64
+    max_annotations_per_sample: 50
+
+# --- Student Model ---
+student:
+  model_name: "unsloth/Qwen2.5-VL-7B-Instruct"
+  max_seq_length: 4096
+  load_in_4bit: true
+  lora_r: 16
+  lora_alpha: 16
+  lora_dropout: 0.0
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  use_gradient_checkpointing: "unsloth"
+
+# --- Teacher Models ---
+teachers:
+  - name: "fetal_clip"
+    model_path: ""  # Set to your FetalCLIP checkpoint path
+    model_type: "clip"
+    feature_dim: 768
+    dtype: "float16"
+
+  - name: "ultra_fed_fm"
+    model_path: ""  # Set to your UltraFedFM checkpoint path
+    model_type: "vit"
+    feature_dim: 768
+    dtype: "float16"
+
+  - name: "ultra_sam"
+    model_path: ""  # Set to your UltraSAM checkpoint path
+    model_type: "sam"
+    feature_dim: 256
+    dtype: "float16"
+
+  - name: "usf_mae"
+    model_path: ""  # Set to your USF-MAE checkpoint path
+    model_type: "mae"
+    feature_dim: 768
+    dtype: "float16"
+
+# --- Distillation ---
+distillation:
+  enabled: true
+  loss_weights:
+    w_task: 1.0
+    w_feat: 0.5
+    w_soft: 0.3
+    w_attn: 0.2
+  temperature: 4.0
+  normalize_features: true
+  normalize_attention: true
+  # Layer indices for feature hook pairs (student -> teacher)
+  student_layer_indices: [4, 8, 12]
+  teacher_layer_indices: [4, 8, 12]
+
+# --- Training ---
+training:
+  output_dir: "/media/mshz88/OS/Qwen/fetal_vlm_kd/outputs"
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 8
+  num_train_epochs: 3
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  lr_scheduler_type: "cosine"
+  logging_steps: 10
+  save_strategy: "steps"
+  save_steps: 500
+  save_total_limit: 3
+  eval_strategy: "steps"
+  eval_steps: 500
+  bf16: true
+  dataloader_num_workers: 4
+  max_seq_length: 4096
+
+# --- Callbacks ---
+callbacks:
+  vram_monitor_interval: 50
+  distillation_log_interval: 10
+
+# --- Export ---
+export:
+  enabled: false
+  output_dir: "/media/mshz88/OS/Qwen/fetal_vlm_kd/exported_model"
+  quantization_method: "q4_k_m"
