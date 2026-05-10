@@ -6,7 +6,7 @@
 [![Paper](https://img.shields.io/badge/Paper-npj_Digital_Medicine-green.svg)](#citation)
 [![Demo](https://img.shields.io/badge/Demo-HuggingFace_Spaces-yellow.svg)](https://huggingface.co/spaces/mshz88/fada-ultrasound-vlm)
 [![Model](https://img.shields.io/badge/Model-HuggingFace-orange.svg)](https://huggingface.co/mshz88/FADA-SKD-4B)
-[![Dataset](https://img.shields.io/badge/Dataset-Zenodo-blue.svg)](https://doi.org/10.5281/zenodo.15366091)
+[![Dataset](https://img.shields.io/badge/Dataset-Zenodo-blue.svg)](https://doi.org/10.5281/zenodo.20104811)
 
 </div>
 
@@ -133,7 +133,7 @@ print(response)
 | Fetal Abdominal Structures | ~700 | Segmentation | Artery, vein, liver, stomach |
 | Fetal Echocardiography | ~1,200 | Classification | 5 cardiac view classes |
 
-> The interpretation dataset and evaluation materials are available on [Zenodo](https://doi.org/10.5281/zenodo.15366091) (access upon request during review).
+> The interpretation dataset and evaluation materials are available on [Zenodo](https://doi.org/10.5281/zenodo.20104811) (access upon request during review).
 
 ---
 
@@ -208,7 +208,7 @@ FADA/
 |:---------|:-----|
 | **Web Demo** | [HuggingFace Spaces](https://huggingface.co/spaces/mshz88/fada-ultrasound-vlm) |
 | **Model Weights** | [HuggingFace](https://huggingface.co/mshz88/FADA-SKD-4B) *(available upon request)* |
-| **Dataset** | [Zenodo](https://doi.org/10.5281/zenodo.15366091) *(available upon request)* |
+| **Dataset** | [Zenodo](https://doi.org/10.5281/zenodo.20104811) *(available upon request)* |
 | **Paper** | Submitted to *npj Digital Medicine* |
 | **Project Page** | [GitHub Pages](https://mahmoodphd.github.io/FADA/) |
 
@@ -241,3 +241,4 @@ We gratefully acknowledge the expert sonographers who contributed their time to 
 ## License
 
 This project is licensed under the [Apache License 2.0](LICENSE).
+
