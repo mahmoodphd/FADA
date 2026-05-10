@@ -1,6 +1,6 @@
 <div align="center">
 
-# FADA: Knowledge-Distilled Vision-Language Models for Unified Fetal Ultrasound Interpretation and Annotation
+# FADA: Knowledge-Distilled Vision-Language Models for Accessible Fetal Ultrasound Interpretation in Low-Resource Obstetric Settings
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Paper](https://img.shields.io/badge/Paper-npj_Digital_Medicine-green.svg)](#citation)
@@ -12,23 +12,42 @@
 
 ---
 
-## Abstract
+## Overview
 
-**FADA** is a unified Vision-Language Model (VLM) that performs five fetal ultrasound tasks — interpretation, classification, anatomical mapping, object detection, and segmentation — within a single end-to-end pipeline. We introduce **Selective Knowledge Distillation (SKD)**, which transfers task-specific expertise from four specialized teacher models (FetalCLIP, UltraSAM, USF-MAE, UltraFedFM) into a compact student VLM while preserving critical clinical reasoning capabilities. Expert validation with certified sonographers confirms that FADA achieves clinically acceptable performance. The framework is fully open-source and deployable in resource-constrained clinical settings via its lightweight 0.8B variant.
+**FADA** (Fetal Anatomy Delineation and Analysis) is a unified Vision-Language Model (VLM) that performs five fetal ultrasound tasks -- interpretation, classification, anatomical mapping, object detection, and segmentation -- within a single end-to-end pipeline. We introduce **Selective Knowledge Distillation (SKD)**, which transfers task-specific expertise from four specialized teacher models (FetalCLIP, UltraSAM, USF-MAE, UltraFedFM) into a compact student VLM while preserving critical clinical reasoning capabilities.
+
+FADA is designed for deployment in **low- and middle-income countries (LMICs)** where access to trained sonographers is limited. The system enables task-shifting from specialist sonographers to general health workers with AI-assisted interpretation, aligned with UN Sustainable Development Goals 3 and 10.
 
 ---
 
 ## Key Results
 
-| Model | mAP@0.50 | mAP@0.75 | Dice | IoU | Cls Acc | Sonographer Score |
-|:------|:--------:|:--------:|:----:|:---:|:-------:|:-----------------:|
-| **FADA-Base (4B)** | 0.7798 | 0.4211 | 0.8813 | 0.8124 | 0.8225 | 1.925 |
-| **FADA-SKD (4B)** | 0.7671 | 0.4402 | 0.8820 | 0.8149 | 0.8379 | 1.975 |
-| **FADA-FKD (4B)** | 0.7413 | 0.4410 | 0.8798 | 0.8116 | 0.8383 | 1.904 |
-| **FADA-Base (0.8B)** | 0.5876 | 0.2818 | 0.7956 | 0.7082 | 0.7564 | — |
-| **FADA-SKD (0.8B)** | 0.6073 | 0.3111 | 0.8244 | 0.7388 | 0.7752 | — |
+### Automated Evaluation (4,478 test samples)
 
-> **Sonographer Score**: Mean expert rating on a 3-point Likert scale (1=Acceptable, 2=Good, 3=Excellent) across 237 images and 49 clinical cases evaluated by certified sonographers.
+| Model | mAP@0.50 | mAP@0.75 | Dice | IoU | Cls Acc |
+|:------|:--------:|:--------:|:----:|:---:|:-------:|
+| **FADA-Base (4B)** | **0.7798** | 0.4211 | 0.8813 | 0.8133 | 0.8225 |
+| **FADA-SKD (4B)** | 0.7671 | 0.4402 | **0.8820** | **0.8149** | 0.8379 |
+| **FADA-FKD (4B)** | 0.7695 | **0.4576** | 0.8790 | 0.8114 | **0.8296** |
+| **FADA-Base (0.8B)** | **0.6885** | **0.3817** | 0.8625 | 0.7899 | 0.8375 |
+| **FADA-SKD (0.8B)** | 0.6744 | 0.3756 | **0.8662** | **0.7921** | **0.8433** |
+
+### Expert Sonographer Evaluation (237 images, 1=best, 3=worst)
+
+| Model | Annotation Score | Interpretation Score | Overall |
+|:------|:----------------:|:--------------------:|:-------:|
+| FADA-Base (4B) | 2.017 | 2.110 | 2.063 |
+| **FADA-SKD (4B)** | 2.025 | **1.924** | **1.975** |
+| FADA-FKD (4B) | 2.051 | 2.181 | 2.116 |
+
+### Human-in-the-Loop Evaluation (49 clinical cases, FADA-SKD only)
+
+| Task | Mean Score | Score 1 (%) | Score 2 (%) | Score 3 (%) |
+|:-----|:----------:|:-----------:|:-----------:|:-----------:|
+| Interpretation | **1.286** | 73.5 | 24.5 | 2.0 |
+| Annotation | 1.449 | 63.3 | 28.6 | 8.2 |
+
+> FADA-SKD achieves 73.5% perfect interpretation scores (Score=1) in human-in-the-loop deployment mode.
 
 ---
 
@@ -38,26 +57,21 @@
 
 FADA operates through a **5-phase inference pipeline**:
 
-1. **Interpret** — Generate a natural-language clinical interpretation of the ultrasound image
-2. **Classify** — Identify the anatomical plane/view category
-3. **Map** — Map anatomical structures present in the image
-4. **Detect** — Localize structures with bounding boxes
-5. **Segment** — Produce pixel-level segmentation masks
+1. **Interpret** -- Generate structured 8-field JSON clinical interpretation
+2. **Classify** -- Identify the anatomical plane/view category
+3. **Map** -- Map anatomical structures to detection/segmentation targets
+4. **Detect** -- Localize structures with bounding boxes
+5. **Segment** -- Produce pixel-level segmentation masks
 
-The Selective Knowledge Distillation framework transfers specialized knowledge from domain-expert teachers while preserving the student's language generation capabilities for clinical interpretation.
+### Selective Knowledge Distillation
 
----
+The key innovation is **Selective KD (SKD)**: feature-level alignment from teacher models is applied *only* to annotation data (detection, segmentation, classification), while interpretation data trains with standard supervised fine-tuning alone. This preserves the student's clinical language generation capabilities while benefiting from teachers' spatial expertise.
 
-## Features
-
-- **Unified multi-task analysis** — Single model handles interpretation, classification, mapping, detection, and segmentation
-- **5-phase inference pipeline** — Structured clinical workflow from interpretation to segmentation
-- **Selective Knowledge Distillation** — Preserves clinical reasoning while enhancing visual understanding
-- **4-Teacher ensemble** — FetalCLIP, UltraSAM, USF-MAE, UltraFedFM
-- **Expert validation** — 237 images + 49 clinical cases evaluated by certified sonographers
-- **Dual deployment modes** — Autonomous and Human-in-the-Loop
-- **Edge deployment** — Lightweight 0.8B variant for resource-constrained settings
-- **14 anatomical views** — Comprehensive coverage of fetal ultrasound planes
+**Teacher ensemble:**
+- **FetalCLIP** (weight=0.40): Contrastive VL pre-training on fetal ultrasound
+- **UltraSAM** (weight=0.25): Segment Anything adapted for ultrasound
+- **USF-MAE** (weight=0.20): Self-supervised MAE across 43 ultrasound datasets
+- **UltraFedFM** (weight=0.15): Federated foundation model across institutions
 
 ---
 
@@ -78,14 +92,14 @@ from peft import PeftModel
 
 # Load base model
 model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
-    "Qwen/Qwen3.5-VL-4B",
+    "Qwen/Qwen2.5-VL-3B-Instruct",
     torch_dtype=torch.float16,
     device_map="auto"
 )
 
 # Load FADA-SKD LoRA adapter
 model = PeftModel.from_pretrained(model, "mshz88/FADA-SKD-4B")
-processor = AutoProcessor.from_pretrained("Qwen/Qwen3.5-VL-4B")
+processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-3B-Instruct")
 
 # Prepare input
 messages = [
@@ -111,30 +125,29 @@ print(response)
 | Source | Images | Tasks | Categories |
 |:-------|:------:|:-----:|:-----------|
 | Custom Interpretation | 56,805 | Interpretation | 14 anatomical views |
-| FOCUS Dataset | 1,500 | Detection | Biometry structures |
-| CRL_NT Dataset | 5,481 | Detection / Segmentation | NT, CRL |
-| Fetal Head Dataset | 1,334 | Segmentation | Head structures |
-| FPUS23 | 11,398 | Classification | 4 standard planes |
-| PS-FH Dataset | 1,358 | Segmentation | Pubic symphysis |
-| Fast-U-Net | 700 | Segmentation | HC, AC |
+| FPUS23 | 11,398 | Classification | 6 fetal pose classes |
+| FUSEP | ~3,000 | Detection | 14 brain structures |
+| Fetal_Head | 1,334 | Segmentation | Brain, CSP, LV |
+| CRL_NT | 5,481 | Detection/Segmentation/Keypoint | CRL, NT, Scale bars |
+| FOCUS | 1,500 | Detection | Cardiac structures |
+| Fetal Abdominal Structures | ~700 | Segmentation | Artery, vein, liver, stomach |
+| Fetal Echocardiography | ~1,200 | Classification | 5 cardiac view classes |
 
-> The combined dataset is available on [Zenodo](https://doi.org/10.5281/zenodo.15366091) (access upon request).
+> The interpretation dataset and evaluation materials are available on [Zenodo](https://doi.org/10.5281/zenodo.15366091) (access upon request during review).
 
 ---
 
 ## Training
 
-FADA uses **Selective Knowledge Distillation (SKD)** to train the student model:
-
 | Parameter | Value |
 |:----------|:------|
-| Base Model | Qwen3.5-VL-4B |
-| Adaptation | LoRA (r=16, α=32) |
+| Base Model | Qwen2.5-VL-3B-Instruct (4B variant) |
+| Adaptation | LoRA (r=16, alpha=16) |
 | Epochs | 3 |
-| Batch Size | 4 (gradient accumulation: 4) |
+| Batch Size | 2 (gradient accumulation: 4) |
 | Learning Rate | 2e-4 |
 | Hardware | Single NVIDIA RTX 4090 (24GB VRAM) |
-| Training Time | ~40 hours |
+| Training Time | ~40 hours per variant |
 
 ```bash
 # Train FADA-SKD (Selective Knowledge Distillation)
@@ -197,6 +210,7 @@ FADA/
 | **Model Weights** | [HuggingFace](https://huggingface.co/mshz88/FADA-SKD-4B) *(available upon request)* |
 | **Dataset** | [Zenodo](https://doi.org/10.5281/zenodo.15366091) *(available upon request)* |
 | **Paper** | Submitted to *npj Digital Medicine* |
+| **Project Page** | [GitHub Pages](https://mahmoodphd.github.io/FADA/) |
 
 ---
 
@@ -204,11 +218,11 @@ FADA/
 
 ```bibtex
 @article{fada2026,
-  title={FADA: Knowledge-Distilled Vision-Language Models for Unified Fetal Ultrasound Interpretation and Annotation},
-  author={Mahmood, Marco Shehata and Al Maadeed, Somaya and Bouridane, Ahmed},
+  title={FADA: Knowledge-Distilled Vision-Language Models for Accessible Fetal Ultrasound Interpretation in Low-Resource Obstetric Settings},
+  author={Alzubaidi, Mahmood and Al Maadeed, Somaya and Bouridane, Ahmed},
   journal={npj Digital Medicine},
   year={2026},
-  note={Submitted}
+  note={Under review}
 }
 ```
 
@@ -216,32 +230,14 @@ FADA/
 
 ## Acknowledgments
 
-We gratefully acknowledge:
+This work has been funded by:
+- **IDRC** (International Development Research Centre), Grant 110060-001
+- **QRDI** (Qatar Research, Development and Innovation Council), Grant PPM 07-0409-240041
 
-- **IDRC** (International Development Research Centre) for funding support
-- **QRDI** (Qatar Research, Development and Innovation Council) for research infrastructure
-- The **expert sonographers** who contributed their time and expertise to clinical validation
-- The open-source **fetal ultrasound dataset communities** whose shared resources made this work possible
-- The developers of [Qwen-VL](https://github.com/QwenLM/Qwen2.5-VL), [FetalCLIP](https://github.com/), [UltraSAM](https://github.com/), [USF-MAE](https://github.com/), and [UltraFedFM](https://github.com/) for their foundational models
+We gratefully acknowledge the expert sonographers who contributed their time to clinical validation, and the open-source fetal ultrasound dataset communities whose shared resources made this work possible.
 
 ---
 
 ## License
 
 This project is licensed under the [Apache License 2.0](LICENSE).
-
-```
-Copyright 2026 FADA Authors
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
