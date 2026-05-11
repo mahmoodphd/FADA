@@ -58,9 +58,12 @@ A key finding is that applying feature-level distillation *only* to annotation d
 | Metric | FADA-SKD | FADA-FKD | FADA-Base |
 |:-------|:--------:|:--------:|:---------:|
 | Field Accuracy | **0.753** | 0.744 | 0.738 |
-| Clinical Terms/Output | **17.27** | 17.1 | 17.0 |
-| Unique Terms | **13.13** | -- | -- |
-| Anatomical Structures | **3.96** | -- | 3.72 |
+| Clinical Terms/Output | **17.27** | 17.13 | 17.04 |
+| Unique Clinical Terms | **13.13** | 13.10 | 12.92 |
+| Anatomical Structures | **3.96** | 3.83 | 3.72 |
+| BLEU-1 | **0.766** | 0.752 | **0.766** |
+| ROUGE-L | **0.790** | 0.774 | **0.790** |
+| JSON Completeness | 100% | 100% | 100% |
 
 ---
 
@@ -293,7 +296,16 @@ If you use FADA in your research, please cite:
 - **QRDI** (Qatar Research, Development and Innovation Council) for research infrastructure
 - The expert sonographers who contributed to clinical validation
 - The open-source fetal ultrasound dataset communities
-- The developers of [Qwen-VL](https://github.com/QwenLM/Qwen2.5-VL), [FetalCLIP](https://github.com/BiomedCLIP), [UltraSAM](https://github.com/), [USF-MAE](https://github.com/), and [UltraFedFM](https://github.com/) for their foundational models
+
+### Foundation Models Used
+
+| Model | Paper | Code | Description |
+|:------|:------|:-----|:------------|
+| **Qwen2.5-VL** | [Bai et al., 2025](https://arxiv.org/abs/2502.13923) | [github.com/QwenLM/Qwen2.5-VL](https://github.com/QwenLM/Qwen2.5-VL) | Base vision-language model (4B parameters) |
+| **FetalCLIP** | [Maani et al., Medical Image Analysis 2025](https://doi.org/10.1016/j.media.2025.103357) | [arxiv.org/abs/2502.14807](https://arxiv.org/abs/2502.14807) | CLIP-based model pre-trained on fetal ultrasound image-text pairs; ViT-L encoder, 1024-dim features |
+| **UltraSAM** | [Meyer et al., IJCARS 2025](https://doi.org/10.1007/s11548-025-03517-8) | [arxiv.org/abs/2411.16222](https://arxiv.org/abs/2411.16222) | Segment Anything Model adapted for ultrasound; ViT-B encoder, 768-dim spatial features |
+| **USF-MAE** | [Megahed et al., 2025](https://arxiv.org/abs/2510.22990) | [arxiv.org/abs/2510.22990](https://arxiv.org/abs/2510.22990) | Masked autoencoder pre-trained on 43 ultrasound datasets (500 epochs); ViT-B, 768-dim features |
+| **UltraFedFM** | [Jiang et al., npj Digital Medicine 2025](https://doi.org/10.1038/s41746-025-02085-0) | [arxiv.org/abs/2411.16380](https://arxiv.org/abs/2411.16380) | Federated foundation model trained across multiple ultrasound domains; ViT-B, 768-dim features |
 
 ---
 
