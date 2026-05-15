@@ -253,17 +253,20 @@ python evaluation/evaluate.py \
 
 ## Dataset
 
-### Annotation Data (7 Repositories, 33 Structures)
+### Annotation Data (10 Repositories, 33 Structures)
 
-| Source | Samples | Tasks | Structures |
-|:-------|:-------:|:-----:|:-----------|
-| FPUS23 | 2,400 | Classification | 6 standard fetal planes |
-| FUSEP | 1,463 | Detection | 14 brain structures |
-| Fetal Head | 544 | Segmentation | Brain, CSP, LV |
-| CRL_NT | 5,481 | Detection/Segmentation/Keypoints | NT, CRL, scale bars |
-| FOCUS | 1,500 | Detection | First-trimester cardiac |
-| Fetal Abdominal | 700 | Segmentation | Artery, vein, liver, stomach |
-| PS-FH | 1,358 | Segmentation | Pubic symphysis, fetal head |
+| Source | Samples | Tasks | Structures | Access |
+|:-------|:-------:|:-----:|:-----------|:-------|
+| Dataset for Fetus Framework | 1,792 | Segmentation | Fetal head, abdomen, femur | [Mendeley](https://data.mendeley.com/datasets/yrzzw9m6kk/1) |
+| Fast-U-Net | 550 | Segmentation | Fetal head | [GitHub](https://github.com/vahidashkani/Fast-U-Net) |
+| Fetal Abdominal Structures | 700 | Segmentation | Artery, vein, liver, stomach | [Mendeley](https://data.mendeley.com/datasets/4gcpm9dsc3/1) |
+| Fetal Echo First Trimester | 1,048 | Classification | First-trimester cardiac views | [Nature](https://www.nature.com/articles/s41746-025-02217-6) |
+| Fetal Head | 544 | Segmentation | Brain, CSP, LV | [Zenodo](https://zenodo.org/records/8265464) |
+| FOCUS | 1,500 | Detection | First-trimester cardiac | [Zenodo](https://zenodo.org/records/14597550) |
+| FPUS23 | 2,400 | Classification | 6 standard fetal planes | [IEEE](https://ieeexplore.ieee.org/document/10146252) |
+| Pubic Symphysis-FH | 1,358 | Detection/Segmentation | Pubic symphysis, fetal head | [IEEE](https://ieeexplore.ieee.org/document/10529289) |
+| CRL_NT | 5,481 | Detection/Segmentation/Keypoints | NT, CRL, scale bars | Private |
+| FUSEP | 1,463 | Detection | 14 brain structures | Private |
 
 **Test set:** 4,478 samples (1,463 detection, 544 segmentation, 2,400 classification, 71 keypoints)
 
@@ -284,6 +287,16 @@ python evaluation/evaluate.py \
 
 **Dataset composition:** 37,870 entries with all 8 fields + 18,935 entries with 4-field subsets (anatomical_structures, fetal_orientation, imaging_plane, biometric_measurements).
 
+**Source images for interpretation data:**
+
+| Categories | Source | Access |
+|:-----------|:-------|:-------|
+| Abdomen, Aorta, Cervical, Cervix, Femur, Thorax | AFUSD (2020) | [Zenodo](https://zenodo.org/records/3904280) |
+| Trans-cerebellum, Trans-thalamic, Trans-ventricular | Fetal_Head (2023) | [Zenodo](https://zenodo.org/records/8265464) |
+| Standard_NT, Non_standard_NT | NT Dataset (2023) | [Mendeley](https://data.mendeley.com/datasets/n2rbrb9t4f/1) |
+| Public_Symphysis_fetal_head | Pubic Symphysis (2024) | [Zenodo](https://zenodo.org/records/10969427) |
+| CRL-View, NT-View | Private | --- |
+
 **Our contribution:** The interpretation dataset is our primary data contribution. While the source ultrasound images come from publicly available repositories (see Data Licensing below), the structured clinical descriptions were created by our expert sonographer specifically for this project. This is what makes FADA's clinical interpretation capability possible.
 
 Available on [Zenodo (DOI: 10.5281/zenodo.20104811)](https://doi.org/10.5281/zenodo.20104811).
@@ -294,17 +307,21 @@ Available on [Zenodo (DOI: 10.5281/zenodo.20104811)](https://doi.org/10.5281/zen
 
 ### Source Images (CC-BY-4.0)
 
-All ultrasound images used in both the **annotation dataset** and the **interpretation dataset** are sourced from publicly available repositories released under [Creative Commons Attribution 4.0 International (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/) or equivalent open licenses. No proprietary or patient-identifiable data were used.
+All ultrasound images used in both the **annotation dataset** and the **interpretation dataset** are sourced from publicly available repositories released under [Creative Commons Attribution 4.0 International (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/) or equivalent open licenses. No proprietary or patient-identifiable data were used. CRL_NT and FUSEP are private datasets not publicly available.
 
 | Source Dataset | License | Original Repository |
 |:---------------|:--------|:--------------------|
-| FPUS23 | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/7861254) |
-| FUSEP | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/7013679) |
-| Fetal Head (HC18) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/1327317) |
-| CRL_NT | CC-BY-4.0 | [Mendeley Data](https://data.mendeley.com/) |
-| FOCUS | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/7885479) |
-| Fetal Abdominal Structures | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/11005634) |
-| PS-FH (Pubic Symphysis-Fetal Head) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/7851339) |
+| Dataset for Fetus Framework | CC-BY-4.0 | [Mendeley Data](https://data.mendeley.com/datasets/yrzzw9m6kk/1) |
+| Fast-U-Net | Open | [GitHub](https://github.com/vahidashkani/Fast-U-Net) |
+| Fetal Abdominal Structures | CC-BY-4.0 | [Mendeley Data](https://data.mendeley.com/datasets/4gcpm9dsc3/1) |
+| Fetal Echocardiography First Trimester | CC-BY-4.0 | [Nature](https://www.nature.com/articles/s41746-025-02217-6) |
+| Fetal Head | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/8265464) |
+| FOCUS | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/14597550) |
+| FPUS23 | CC-BY-4.0 | [IEEE](https://ieeexplore.ieee.org/document/10146252) |
+| Pubic Symphysis-FH | CC-BY-4.0 | [IEEE](https://ieeexplore.ieee.org/document/10529289) |
+| AFUSD (Interpretation) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/3904280) |
+| NT Dataset (Interpretation) | CC-BY-4.0 | [Mendeley Data](https://data.mendeley.com/datasets/n2rbrb9t4f/1) |
+| Pubic Symphysis (Interpretation) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/10969427) |
 
 ### Our Contribution (Interpretation Dataset)
 
