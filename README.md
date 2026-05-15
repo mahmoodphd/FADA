@@ -258,7 +258,7 @@ python evaluation/evaluate.py \
 | Source | Samples | Tasks | Structures | Access |
 |:-------|:-------:|:-----:|:-----------|:-------|
 | Dataset for Fetus Framework | 1,792 | Segmentation | Fetal head, abdomen, femur | [Mendeley](https://data.mendeley.com/datasets/yrzzw9m6kk/1) |
-| Fast-U-Net | 550 | Segmentation | Fetal head | [GitHub](https://github.com/vahidashkani/Fast-U-Net) |
+| Fast-U-Net | 550 | Segmentation | Fetal head, abdomen | [GitHub](https://github.com/vahidashkani/Fast-U-Net) |
 | Fetal Abdominal Structures | 700 | Segmentation | Artery, vein, liver, stomach | [Mendeley](https://data.mendeley.com/datasets/4gcpm9dsc3/1) |
 | Fetal Echo First Trimester | 1,048 | Classification | First-trimester cardiac views | [Nature](https://www.nature.com/articles/s41746-025-02217-6) |
 | Fetal Head | 544 | Segmentation | Brain, CSP, LV | [Zenodo](https://zenodo.org/records/8265464) |
