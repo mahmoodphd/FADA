@@ -422,7 +422,7 @@ If you use FADA in your research, please cite:
 
 | Model | Paper | Code | Description |
 |:------|:------|:-----|:------------|
-| **Qwen2.5-VL** | [Bai et al., 2025](https://arxiv.org/abs/2502.13923) | [github.com/QwenLM/Qwen2.5-VL](https://github.com/QwenLM/Qwen2.5-VL) | Base vision-language model (4B parameters) |
+| **Qwen3.5-VL** | [Bai et al., 2025](https://arxiv.org/abs/2502.13923) | [github.com/QwenLM/Qwen3.6](https://github.com/QwenLM/Qwen3.6) | Base vision-language model (4B parameters) |
 | **FetalCLIP** | [Maani et al., Medical Image Analysis 2025](https://doi.org/10.1016/j.media.2025.103357) | [arxiv.org/abs/2502.14807](https://arxiv.org/abs/2502.14807) | CLIP-based model pre-trained on fetal ultrasound image-text pairs; ViT-L encoder, 1024-dim features |
 | **UltraSAM** | [Meyer et al., IJCARS 2025](https://doi.org/10.1007/s11548-025-03517-8) | [arxiv.org/abs/2411.16222](https://arxiv.org/abs/2411.16222) | Segment Anything Model adapted for ultrasound; ViT-B encoder, 768-dim spatial features |
 | **USF-MAE** | [Megahed et al., 2025](https://arxiv.org/abs/2510.22990) | [arxiv.org/abs/2510.22990](https://arxiv.org/abs/2510.22990) | Masked autoencoder pre-trained on 43 ultrasound datasets (500 epochs); ViT-B, 768-dim features |
