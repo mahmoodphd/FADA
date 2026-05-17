@@ -12,6 +12,23 @@
 
 ---
 
+## Demo Video
+
+<div align="center">
+
+[![Watch the FADA Demo](https://img.youtube.com/vi/CbXcz74fn6k/maxresdefault.jpg)](https://www.youtube.com/watch?v=CbXcz74fn6k)
+
+**Click the image above to watch the full demo on YouTube**
+
+</div>
+
+The video demonstrates FADA's three main interaction modes:
+- **Interactive Chat** -- Natural-language queries for interpretation, detection, keypoint localization, and segmentation
+- **Autonomous Mode** -- One-click full 5-phase pipeline (Interpret, Classify, Map, Detect, Segment)
+- **Anatomy Reference** -- Built-in visual atlas of 14 anatomical planes and 33 detectable structures
+
+---
+
 ## Overview
 
 **FADA** (Fetal Anatomy Delineation and Analysis) is a unified vision-language model (VLM) built on Qwen3.5-VL that performs clinical interpretation, anatomical classification, bounding-box detection, and polygon segmentation of fetal ultrasound images within a single end-to-end pipeline. FADA employs **Selective Knowledge Distillation (SKD)** to transfer task-specific expertise from four domain-specific ultrasound foundation models into a compact student while preserving clinical reasoning capabilities.
@@ -38,11 +55,11 @@ A key finding is that applying feature-level distillation *only* to annotation d
 
 | Model | mAP@0.50 | mAP@0.75 | Dice | IoU | Cls Acc |
 |:------|:--------:|:--------:|:----:|:---:|:-------:|
-| **FADA-Base (4B)** | 0.7798 | 0.4211 | 0.8813 | 0.8124 | 0.8225 |
-| **FADA-SKD (4B)** | 0.7671 | 0.4402 | **0.8820** | **0.8149** | 0.8379 |
-| **FADA-FKD (4B)** | 0.7413 | **0.4576** | 0.8798 | 0.8116 | **0.8383** |
-| **FADA-Base (0.8B)** | 0.5876 | 0.2818 | 0.7956 | 0.7082 | 0.7564 |
-| **FADA-SKD (0.8B)** | 0.6073 | 0.3111 | 0.8244 | 0.7388 | 0.7752 |
+| **FADA-Base (4B)** | 0.7798 | 0.4211 | 0.8813 | 0.8133 | 0.8225 |
+| **FADA-SKD (4B)** | 0.7671 | 0.4402 | **0.8820** | **0.8149** | **0.8379** |
+| **FADA-FKD (4B)** | 0.7695 | **0.4576** | 0.8790 | 0.8114 | 0.8296 |
+| **FADA-Base (0.8B)** | 0.6885 | 0.3817 | 0.8625 | 0.7899 | 0.8375 |
+| **FADA-SKD (0.8B)** | 0.6744 | 0.3756 | 0.8662 | 0.7921 | 0.8433 |
 
 ### Expert Sonographer Validation
 
@@ -59,7 +76,7 @@ A key finding is that applying feature-level distillation *only* to annotation d
 **Evaluator:** An expert sonographer with >10 years of clinical experience in obstetric ultrasound imaging.
 
 **Autonomous Evaluation (237 images):**
-- 237 images spanning 18 anatomical categories (174 from the test set + 62 external clinical images from a different hospital)
+- 237 images spanning 18 anatomical categories (175 from the test set + 62 external clinical images from a different hospital)
 - All three 4B model variants (FADA-Base, FADA-SKD, FADA-FKD) were evaluated
 - **Blinded protocol:** For each image, all three model outputs were presented in randomized order without model identification
 - The sonographer independently scored each output on two dimensions:
@@ -253,20 +270,17 @@ python evaluation/evaluate.py \
 
 ## Dataset
 
-### Annotation Data (10 Repositories, 33 Structures)
+### Annotation Data (7 Repositories, 33 Structures)
 
-| Source | Samples | Tasks | Structures | Access |
-|:-------|:-------:|:-----:|:-----------|:-------|
-| Dataset for Fetus Framework | 1,792 | Detection | Thalami, midbrain, NT, nasal bone, nasal tip, nasal skin, IT, CM, palate | [Mendeley](https://data.mendeley.com/datasets/yrzzw9m6kk/1) |
-| Fast-U-Net | 550 | Segmentation | Fetal head, abdomen | [GitHub](https://github.com/vahidashkani/Fast-U-Net) |
-| Fetal Abdominal Structures | 700 | Segmentation | Artery, vein, liver, stomach | [Mendeley](https://data.mendeley.com/datasets/4gcpm9dsc3/1) |
-| Fetal Echo First Trimester | 1,048 | Classification | First-trimester cardiac views | [Nature](https://www.nature.com/articles/s41746-025-02217-6) |
-| Fetal Head | 544 | Segmentation | Brain, CSP, LV | [Zenodo](https://zenodo.org/records/8265464) |
-| FOCUS | 1,500 | Detection | First-trimester cardiac | [Zenodo](https://zenodo.org/records/14597550) |
-| FPUS23 | 2,400 | Classification | 6 standard fetal planes | [IEEE](https://ieeexplore.ieee.org/document/10146252) |
-| Pubic Symphysis-FH | 1,358 | Detection/Segmentation | Pubic symphysis, fetal head | [IEEE](https://ieeexplore.ieee.org/document/10529289) |
-| CRL_NT | 5,481 | Detection/Segmentation/Keypoints | NT, CRL, scale bars | Private |
-| FUSEP | 1,463 | Detection | 14 brain structures | Private |
+| Source | Samples | Tasks | Structures |
+|:-------|:-------:|:-----:|:-----------|
+| FPUS23 | 2,400 | Classification | 6 standard fetal planes |
+| FUSEP | 1,463 | Detection | 14 brain structures |
+| Fetal Head | 544 | Segmentation | Brain, CSP, LV |
+| CRL_NT | 5,481 | Detection/Segmentation/Keypoints | NT, CRL, scale bars |
+| FOCUS | 1,500 | Detection | First-trimester cardiac |
+| Fetal Abdominal | 700 | Segmentation | Artery, vein, liver, stomach |
+| PS-FH | 1,358 | Segmentation | Pubic symphysis, fetal head |
 
 **Test set:** 4,478 samples (1,463 detection, 544 segmentation, 2,400 classification, 71 keypoints)
 
@@ -287,16 +301,6 @@ python evaluation/evaluate.py \
 
 **Dataset composition:** 37,870 entries with all 8 fields + 18,935 entries with 4-field subsets (anatomical_structures, fetal_orientation, imaging_plane, biometric_measurements).
 
-**Source images for interpretation data:**
-
-| Categories | Source | Access |
-|:-----------|:-------|:-------|
-| Abdomen, Aorta, Cervical, Cervix, Femur, Thorax | AFUSD (2020) | [Zenodo](https://zenodo.org/records/3904280) |
-| Trans-cerebellum, Trans-thalamic, Trans-ventricular | Fetal_Head (2023) | [Zenodo](https://zenodo.org/records/8265464) |
-| Standard_NT, Non_standard_NT | NT Dataset (2023) | [Mendeley](https://data.mendeley.com/datasets/n2rbrb9t4f/1) |
-| Public_Symphysis_fetal_head | Pubic Symphysis (2024) | [Zenodo](https://zenodo.org/records/10969427) |
-| CRL-View, NT-View | Private | --- |
-
 **Our contribution:** The interpretation dataset is our primary data contribution. While the source ultrasound images come from publicly available repositories (see Data Licensing below), the structured clinical descriptions were created by our expert sonographer specifically for this project. This is what makes FADA's clinical interpretation capability possible.
 
 Available on [Zenodo (DOI: 10.5281/zenodo.20104811)](https://doi.org/10.5281/zenodo.20104811).
@@ -307,21 +311,17 @@ Available on [Zenodo (DOI: 10.5281/zenodo.20104811)](https://doi.org/10.5281/zen
 
 ### Source Images (CC-BY-4.0)
 
-All ultrasound images used in both the **annotation dataset** and the **interpretation dataset** are sourced from publicly available repositories released under [Creative Commons Attribution 4.0 International (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/) or equivalent open licenses. No proprietary or patient-identifiable data were used. CRL_NT and FUSEP are private datasets not publicly available.
+All ultrasound images used in both the **annotation dataset** and the **interpretation dataset** are sourced from publicly available repositories released under [Creative Commons Attribution 4.0 International (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/) or equivalent open licenses. No proprietary or patient-identifiable data were used.
 
 | Source Dataset | License | Original Repository |
 |:---------------|:--------|:--------------------|
-| Dataset for Fetus Framework | CC-BY-4.0 | [Mendeley Data](https://data.mendeley.com/datasets/yrzzw9m6kk/1) |
-| Fast-U-Net | Open | [GitHub](https://github.com/vahidashkani/Fast-U-Net) |
-| Fetal Abdominal Structures | CC-BY-4.0 | [Mendeley Data](https://data.mendeley.com/datasets/4gcpm9dsc3/1) |
-| Fetal Echocardiography First Trimester | CC-BY-4.0 | [Nature](https://www.nature.com/articles/s41746-025-02217-6) |
-| Fetal Head | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/8265464) |
-| FOCUS | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/14597550) |
-| FPUS23 | CC-BY-4.0 | [IEEE](https://ieeexplore.ieee.org/document/10146252) |
-| Pubic Symphysis-FH | CC-BY-4.0 | [IEEE](https://ieeexplore.ieee.org/document/10529289) |
-| AFUSD (Interpretation) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/3904280) |
-| NT Dataset (Interpretation) | CC-BY-4.0 | [Mendeley Data](https://data.mendeley.com/datasets/n2rbrb9t4f/1) |
-| Pubic Symphysis (Interpretation) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/10969427) |
+| FPUS23 | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/7861254) |
+| FUSEP | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/7013679) |
+| Fetal Head (HC18) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/1327317) |
+| CRL_NT | CC-BY-4.0 | [Mendeley Data](https://data.mendeley.com/) |
+| FOCUS | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/7885479) |
+| Fetal Abdominal Structures | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/11005634) |
+| PS-FH (Pubic Symphysis-Fetal Head) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/7851339) |
 
 ### Our Contribution (Interpretation Dataset)
 
@@ -384,6 +384,7 @@ FADA/
 
 | Resource | Link |
 |:---------|:-----|
+| **Demo Video** | [YouTube](https://youtu.be/CbXcz74fn6k) |
 | **Web Application** | [huggingface.co/spaces/mshz88/fada-ultrasound-vlm](https://huggingface.co/spaces/mshz88/fada-ultrasound-vlm) |
 | **Model Weights (4B)** | [huggingface.co/mshz88/FADA-SKD-4B](https://huggingface.co/mshz88/FADA-SKD-4B) |
 | **Model Weights (0.8B ONNX)** | [huggingface.co/mshz88/FADA-Mobile-ONNX](https://huggingface.co/mshz88/FADA-Mobile-ONNX) |
@@ -401,7 +402,7 @@ If you use FADA in your research, please cite:
 @article{fada2026,
   title={FADA: Knowledge-Distilled Vision-Language Models for Accessible Fetal 
          Ultrasound Interpretation in Low-Resource Obstetric Settings},
-  author={Al-Zubaidi, Mahmood Shehata and Al Maadeed, Somaya and Bouridane, Ahmed},
+  author={Alzubaidi, Mahmood and Agus, Marco},
   journal={npj Digital Medicine},
   year={2026},
   note={Submitted to the "Digital Health in Low-Resource Settings" Collection}
