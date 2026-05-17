@@ -309,19 +309,23 @@ Available on [Zenodo (DOI: 10.5281/zenodo.20104811)](https://doi.org/10.5281/zen
 
 ## Data Licensing
 
-### Source Images (CC-BY-4.0)
+### Source Images
 
-All ultrasound images used in both the **annotation dataset** and the **interpretation dataset** are sourced from publicly available repositories released under [Creative Commons Attribution 4.0 International (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/) or equivalent open licenses. No proprietary or patient-identifiable data were used.
+Ultrasound images used in both the **annotation dataset** and the **interpretation dataset** are drawn from publicly available repositories released under [Creative Commons Attribution 4.0 International (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/) or equivalent open licenses, except where noted below. No patient-identifiable data were used.
 
 | Source Dataset | License | Original Repository |
 |:---------------|:--------|:--------------------|
-| FPUS23 | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/7861254) |
-| FUSEP | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/7013679) |
-| Fetal Head (HC18) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/1327317) |
-| CRL_NT | CC-BY-4.0 | [Mendeley Data](https://data.mendeley.com/) |
-| FOCUS | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/7885479) |
-| Fetal Abdominal Structures | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/11005634) |
-| PS-FH (Pubic Symphysis-Fetal Head) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/7851339) |
+| FPUS23 (Prabakaran et al., 2023) | CC-BY-4.0 | [IEEE Access](https://ieeexplore.ieee.org/document/10146252) |
+| Fetal Head / HC18 (van den Heuvel et al., 2018) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/1322001) |
+| FOCUS (Wu et al., 2025) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/14597550) |
+| Fetal Abdominal Structures (Da Correggio et al., 2023) | CC-BY-4.0 | [Mendeley Data](https://data.mendeley.com/datasets/4gcpm9dsc3/1) |
+| PS-FH / PSFHS (Bai et al., 2024) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/10969427) |
+| FETAL_PLANES_DB (Burgos-Artizzu et al., 2020) | CC-BY-4.0 | [Zenodo](https://zenodo.org/records/3904280) |
+| Dataset for Fetus Framework (Cui & Dong, 2022) | CC-BY-4.0 | [Mendeley Data](https://data.mendeley.com/datasets/n2rbrb9t4f/1) |
+| Fast-U-Net Dataset (Ashkani Chenarlogh et al., 2022) | CC-BY-4.0 | [GitHub](https://github.com/vahidashkani/Fast-U-Net) |
+| First Trimester Fetal Echo (Stoean et al., 2022) | CC-BY-4.0 | [Figshare](https://figshare.com/articles/figure/First_Trimester_Fetal_Echocardiography_Data_Set_for_Classification/21215492) |
+| FUSEP | Private | Not publicly available |
+| CRL_NT | Private | Not publicly available |
 
 ### Our Contribution (Interpretation Dataset)
 
@@ -400,7 +404,7 @@ If you use FADA in your research, please cite:
 
 ```bibtex
 @article{fada2026,
-  title={FADA: Knowledge-Distilled Vision-Language Models for Accessible Fetal 
+  title={FADA: Knowledge-Distilled Vision-Language Models for Accessible Fetal
          Ultrasound Interpretation in Low-Resource Obstetric Settings},
   author={Alzubaidi, Mahmood and Agus, Marco},
   journal={npj Digital Medicine},
@@ -432,4 +436,4 @@ If you use FADA in your research, please cite:
 
 ## License
 
-This project is licensed under the [Apache License 2.0](LICENSE). The interpretation dataset is released under CC-BY-4.0. Source images are from CC-BY-4.0 public repositories. See [Data Licensing](#data-licensing) for full details.
+This project is licensed under the [Apache License 2.0](LICENSE). The interpretation dataset is released under CC-BY-4.0. Most source images are from CC-BY-4.0 public repositories; two datasets (FUSEP, CRL_NT) remain private. See [Data Licensing](#data-licensing) for full details.
