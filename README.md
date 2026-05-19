@@ -389,7 +389,7 @@ FADA/
 | Resource | Link |
 |:---------|:-----|
 | **Demo Video** | [YouTube](https://youtu.be/CbXcz74fn6k) |
-| **Web Application** | [huggingface.co/spaces/mshz88/fada-ultrasound-vlm](https://huggingface.co/spaces/mshz88/fada-ultrasound-vlm) |
+| **Web Application** | [ https://mshz88-fada-ultrasound-vlm.hf.space]( https://mshz88-fada-ultrasound-vlm.hf.space) |
 | **Model Weights (4B)** | [huggingface.co/mshz88/FADA-SKD-4B](https://huggingface.co/mshz88/FADA-SKD-4B) |
 | **Model Weights (0.8B ONNX)** | [huggingface.co/mshz88/FADA-Mobile-ONNX](https://huggingface.co/mshz88/FADA-Mobile-ONNX) |
 | **Interpretation Dataset** | [Zenodo (DOI: 10.5281/zenodo.20104811)](https://doi.org/10.5281/zenodo.20104811) |
