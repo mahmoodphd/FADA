@@ -394,7 +394,7 @@ FADA/
 | **Model Weights (0.8B ONNX)** | [huggingface.co/mshz88/FADA-Mobile-ONNX](https://huggingface.co/mshz88/FADA-Mobile-ONNX) |
 | **Interpretation Dataset** | [Zenodo (DOI: 10.5281/zenodo.20104811)](https://doi.org/10.5281/zenodo.20104811) |
 | **Source Code** | [github.com/mahmoodphd/FADA](https://github.com/mahmoodphd/FADA) |
-| **Paper** | Submitted to *npj Digital Medicine* (2026) |
+| **Paper** | Submitted to * Digital Medicine* (2026) |
 
 ---
 
@@ -407,7 +407,7 @@ If you use FADA in your research, please cite:
   title={FADA: Knowledge-Distilled Vision-Language Models for Accessible Fetal
          Ultrasound Interpretation in Low-Resource Obstetric Settings},
   author={Alzubaidi, Mahmood and Agus, Marco},
-  journal={npj Digital Medicine},
+  journal={Arxiv},
   year={2026},
   note={Submitted to the "Digital Health in Low-Resource Settings" Collection}
 }
