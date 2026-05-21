@@ -1,6 +1,6 @@
 <div align="center">
 
-# FADA: Knowledge-Distilled Vision-Language Models for Accessible Fetal Ultrasound Interpretation in Low-Resource Obstetric Settings
+# FADA: Accessible fetal ultrasound interpretation and annotation with a selectively distilled unified vision-language model.
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Paper](https://img.shields.io/badge/Paper-npj_Digital_Medicine-green.svg)](#citation)
