@@ -6,6 +6,7 @@
 [![Paper](https://img.shields.io/badge/Paper-npj_Digital_Medicine-green.svg)](#citation)
 [![Demo](https://img.shields.io/badge/Demo-HuggingFace_Spaces-yellow.svg)](https://huggingface.co/spaces/mshz88/fada-ultrasound-vlm)
 [![Model](https://img.shields.io/badge/Model-HuggingFace-orange.svg)](https://huggingface.co/mshz88/FADA-SKD-4B)
+[![Mobile](https://img.shields.io/badge/Mobile-GGUF_Model-purple.svg)](https://huggingface.co/mshz88/FADA-Mobile-GGUF)
 [![Dataset](https://img.shields.io/badge/Dataset-Zenodo-blue.svg)](https://doi.org/10.5281/zenodo.20104811)
 
 </div>
@@ -34,6 +35,8 @@ The video demonstrates FADA's three main interaction modes:
 **FADA** (Fetal Anatomy Delineation and Analysis) is a unified vision-language model (VLM) built on Qwen3.5-VL that performs clinical interpretation, anatomical classification, bounding-box detection, and polygon segmentation of fetal ultrasound images within a single end-to-end pipeline. FADA employs **Selective Knowledge Distillation (SKD)** to transfer task-specific expertise from four domain-specific ultrasound foundation models into a compact student while preserving clinical reasoning capabilities.
 
 A key finding is that applying feature-level distillation *only* to annotation data (detection, segmentation, classification) while training interpretation with supervised fine-tuning alone outperforms full distillation across all tasks. Expert sonographer validation across 237 images and 49 clinical cases confirms clinically acceptable performance. The system is designed for deployment in resource-constrained obstetric settings, aligned with UN Sustainable Development Goals 3 and 10.
+
+**Edge Deployment:** The compressed 0.8B model variant is quantized to GGUF format and deployed via llama.cpp on a commodity Android smartphone (Honor 90, Snapdragon 7 Gen 1, 12 GB RAM), completing the full 5-phase pipeline in ~59 seconds entirely offline. This demonstrates that the model can be integrated with portable fetal ultrasound devices in a stand-alone fashion.
 
 ---
 
@@ -334,7 +337,7 @@ The structured clinical interpretation annotations (56,805 JSON conversations) a
 ### Code and Model Weights
 
 - **Code:** Apache License 2.0
-- **Model weights (FADA-SKD-4B, FADA-Mobile-ONNX):** Apache License 2.0
+- **Model weights (FADA-SKD-4B, FADA-Mobile-GGUF):** Apache License 2.0
 - **Base model (Qwen3.5-VL):** Apache License 2.0 ([Qwen License](https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct/blob/main/LICENSE))
 
 **Ethics:** This study uses publicly available de-identified ultrasound datasets. Expert sonographer evaluation constitutes professional consultation and does not require separate IRB approval. No patient-identifiable data were collected or used. See Paper Section "Ethics approval" for details.
@@ -345,13 +348,28 @@ The structured clinical interpretation annotations (56,805 JSON conversations) a
 
 FADA supports multiple deployment targets:
 
-| Platform | Model | Format | Latency |
-|:---------|:------|:-------|:--------|
-| Cloud (Web App) | FADA-SKD (4B) | PyTorch + LoRA | ~3s/image |
-| Mobile (Android) | FADA-SKD (0.8B) | ONNX INT8 | <2s/image |
-| Browser (WebGPU) | FADA-SKD (0.8B) | ONNX | ~5s/image |
+| Platform | Model | Format | Latency | Connectivity |
+|:---------|:------|:-------|:--------|:-------------|
+| Cloud (high accuracy) | FADA-SKD (4B) | PyTorch + LoRA | ~20-25s/image | Required |
+| Cloud (cost-efficient) | FADA-SKD (4B) | PyTorch + LoRA | ~35-45s/image | Required |
+| **Mobile (Android)** | **FADA-SKD (0.8B)** | **GGUF Q4_K_M** | **~59s (full pipeline)** | **None** |
 
-**Deployment pipeline:** PyTorch -> ONNX Export (INT8 quantization) -> ONNX Runtime 1.25 -> Android/Web App -> Clinical Point-of-Care
+### Mobile Deployment
+
+The 0.8B model is deployed on Android via [llama.cpp](https://github.com/ggerganov/llama.cpp) with GGUF quantization:
+
+- **Model:** FADA-SKD 0.8B (Q4_K_M quantization)
+- **Total download:** 712 MB (516 MB text model + 195 MB FP16 vision encoder)
+- **Runtime:** llama.cpp with multimodal (MTMD) vision support
+- **Test device:** Honor 90 (Snapdragon 7 Gen 1, 12 GB RAM, Android 15)
+- **Latency:** ~40s per individual task (chat mode), ~59s full 5-phase pipeline (autonomous mode)
+- **Connectivity:** None required (fully offline after model download)
+
+**Deployment pipeline:** PyTorch -> GGUF Q4_K_M quantization -> llama.cpp (native C++ via JNI) -> Android app (Kotlin/Jetpack Compose) -> Clinical Point-of-Care
+
+**Download the APK:** See [Releases](https://github.com/mahmoodphd/FADA/releases) for the latest Android APK.
+
+**Mobile model weights:** [huggingface.co/mshz88/FADA-Mobile-GGUF](https://huggingface.co/mshz88/FADA-Mobile-GGUF)
 
 ---
 
@@ -389,12 +407,13 @@ FADA/
 | Resource | Link |
 |:---------|:-----|
 | **Demo Video** | [YouTube](https://youtu.be/CbXcz74fn6k) |
-| **Web Application** | [ https://mshz88-fada-ultrasound-vlm.hf.space]( https://mshz88-fada-ultrasound-vlm.hf.space) |
+| **Web Application** | [mshz88-fada-ultrasound-vlm.hf.space](https://mshz88-fada-ultrasound-vlm.hf.space) |
 | **Model Weights (4B)** | [huggingface.co/mshz88/FADA-SKD-4B](https://huggingface.co/mshz88/FADA-SKD-4B) |
-| **Model Weights (0.8B ONNX)** | [huggingface.co/mshz88/FADA-Mobile-ONNX](https://huggingface.co/mshz88/FADA-Mobile-ONNX) |
+| **Model Weights (0.8B GGUF)** | [huggingface.co/mshz88/FADA-Mobile-GGUF](https://huggingface.co/mshz88/FADA-Mobile-GGUF) |
+| **Mobile App (APK)** | [GitHub Releases](https://github.com/mahmoodphd/FADA/releases) |
 | **Interpretation Dataset** | [Zenodo (DOI: 10.5281/zenodo.20104811)](https://doi.org/10.5281/zenodo.20104811) |
 | **Source Code** | [github.com/mahmoodphd/FADA](https://github.com/mahmoodphd/FADA) |
-| **Paper** | Submitted to * Digital Medicine* (2026) |
+| **Paper** | Submitted to *npj Digital Medicine* (2026) |
 
 ---
 
