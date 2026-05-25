@@ -433,7 +433,7 @@ FADA/
 | **Mobile App (APK)** | [GitHub Releases](https://github.com/mahmoodphd/FADA/releases) |
 | **Interpretation Dataset** | [Zenodo (DOI: 10.5281/zenodo.20104811)](https://doi.org/10.5281/zenodo.20104811) |
 | **Source Code** | [github.com/mahmoodphd/FADA](https://github.com/mahmoodphd/FADA) |
-| **Paper** | Submitted to *npj Digital Medicine* (2026) |
+| **Paper** | Submitted to * Digital Medicine* (2026) |
 
 ---
 
