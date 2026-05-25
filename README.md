@@ -13,13 +13,15 @@
 
 ---
 
-## Demo Video
+## Demo Videos
+
+### Web Application Demo
 
 <div align="center">
 
-[![Watch the FADA Demo](https://img.youtube.com/vi/CbXcz74fn6k/maxresdefault.jpg)](https://www.youtube.com/watch?v=CbXcz74fn6k)
+[![Watch the FADA Web Demo](https://img.youtube.com/vi/CbXcz74fn6k/maxresdefault.jpg)](https://www.youtube.com/watch?v=CbXcz74fn6k)
 
-**Click the image above to watch the full demo on YouTube**
+**Click the image above to watch the web app demo on YouTube**
 
 </div>
 
@@ -27,6 +29,23 @@ The video demonstrates FADA's three main interaction modes:
 - **Interactive Chat** -- Natural-language queries for interpretation, detection, keypoint localization, and segmentation
 - **Autonomous Mode** -- One-click full 5-phase pipeline (Interpret, Classify, Map, Detect, Segment)
 - **Anatomy Reference** -- Built-in visual atlas of 14 anatomical planes and 33 detectable structures
+
+### Mobile App Demo (Offline Edge Deployment)
+
+<div align="center">
+
+[![Watch the FADA Mobile Demo](https://img.youtube.com/vi/RoogJqPNZ4w/maxresdefault.jpg)](https://www.youtube.com/watch?v=RoogJqPNZ4w)
+
+**Click the image above to watch the mobile app demo on YouTube**
+
+</div>
+
+The mobile demo showcases fully offline AI-assisted fetal ultrasound analysis on a commodity smartphone:
+- **Model Download** -- One-time 712 MB download (516 MB text + 195 MB vision encoder)
+- **Chat Mode** -- Interactive interpretation and detection with ~40s per task
+- **Detection Overlay** -- On-device bounding-box rendering for CRL, head, body, nasal bone
+- **Autonomous Pipeline** -- Full 5-phase analysis in ~59 seconds without cloud connectivity
+- **Test Device** -- Honor 90 (Snapdragon 7 Gen 1, 12 GB RAM, Android 15)
 
 ---
 
@@ -406,7 +425,8 @@ FADA/
 
 | Resource | Link |
 |:---------|:-----|
-| **Demo Video** | [YouTube](https://youtu.be/CbXcz74fn6k) |
+| **Web App Demo Video** | [YouTube](https://youtu.be/CbXcz74fn6k) |
+| **Mobile App Demo Video** | [YouTube](https://youtu.be/RoogJqPNZ4w) |
 | **Web Application** | [mshz88-fada-ultrasound-vlm.hf.space](https://mshz88-fada-ultrasound-vlm.hf.space) |
 | **Model Weights (4B)** | [huggingface.co/mshz88/FADA-SKD-4B](https://huggingface.co/mshz88/FADA-SKD-4B) |
 | **Model Weights (0.8B GGUF)** | [huggingface.co/mshz88/FADA-Mobile-GGUF](https://huggingface.co/mshz88/FADA-Mobile-GGUF) |
