@@ -442,13 +442,14 @@ FADA/
 If you use FADA in your research, please cite:
 
 ```bibtex
-@article{fada2026,
-  title={FADA: Knowledge-Distilled Vision-Language Models for Accessible Fetal
-         Ultrasound Interpretation in Low-Resource Obstetric Settings},
-  author={Alzubaidi, Mahmood and Agus, Marco},
-  journal={Arxiv},
-  year={2026},
-  note={Submitted to the "Digital Health in Low-Resource Settings" Collection}
+@misc{alzubaidi2026fadaaccessiblefetalultrasound,
+      title={FADA: Accessible fetal ultrasound interpretation and annotation with a selectively distilled unified vision-language model}, 
+      author={Mahmood Alzubaidi and Uzair Shah and Raden Muaz and Ines Abbes and Nader Mohammed and Abdullatif Magram and Khalid Alyafei and Mowafa Househ and Marco Agus},
+      year={2026},
+      eprint={2606.11106},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2606.11106}, 
 }
 ```
 
